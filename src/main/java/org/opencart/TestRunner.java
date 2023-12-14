@@ -7,6 +7,8 @@ import org.openqa.selenium.WindowType;
 import javax.swing.*;
 
 public class TestRunner {
+
+
     public static void main(String[] args) throws InterruptedException {
 
         //define a driver object that will be used for future actions
