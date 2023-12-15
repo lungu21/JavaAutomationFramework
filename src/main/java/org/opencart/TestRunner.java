@@ -3,6 +3,9 @@ package org.opencart;
 import org.opencart.managers.DataFakerManager;
 import org.opencart.managers.DriverManager;
 import org.opencart.managers.ScrollManager;
+import org.opencart.pageobjects.AccountCreatedPafe;
+import org.opencart.pageobjects.HomePage;
+import org.opencart.pageobjects.RegisterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,34 +23,30 @@ public class TestRunner {
 
         driver.get("https://andreisecuqa.host/");
 
-        String currentWindowName = driver.getWindowHandle();
+        HomePage homePage = new HomePage(driver);
+        homePage.navigatetoRegisterPageFromHeaderMenu();
 
-        driver.switchTo().newWindow(WindowType.TAB);
-        driver.get("https://andreisecuqa.host/");
 
-        Thread.sleep(5000);
         String firstName = DataFakerManager.getRandomName();
-        System.out.println("The generated first name is: "+ firstName);
-
         String lastName = DataFakerManager.getRandomName();
-        System.out.println("The generated first name is: "+ lastName);
-
         String email = DataFakerManager.getRandomEmail();
-        System.out.println("The generated first name is: "+ email);
+        String password = DataFakerManager.getRandomPasword(10, 20);
 
-        String password = DataFakerManager.getRandomPasword(10,20);
-        System.out.println("The generated first name is: "+ password);
 
-        driver.switchTo().window(currentWindowName);
+        RegisterPage registerPage = new RegisterPage(driver);
+        registerPage.fillInTheRegisterForm(firstName, lastName, email, password);
+        registerPage.switchOnThePrivacyToogle(driver);
+        registerPage.clickOnContinueButton();
+
+        AccountCreatedPafe accountCreatedPafe = new AccountCreatedPafe(driver);
+        accountCreatedPafe.logOutFromTheAccount();
+
         driver.quit();
         System.out.println("The execution was finished");
-
-        WebElement privacyToogle = driver.findElement(By.cssSelector("fdsdsg"));
-        ScrollManager.scrollElement(driver,privacyToogle);
-        privacyToogle.click();
-
-
-
     }
 
+
+
 }
+
+
