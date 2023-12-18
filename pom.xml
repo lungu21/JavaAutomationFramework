@@ -16,6 +16,7 @@
         <junit.version> 4.13.2</junit.version>
         <junit.jupiter.version>5.10.0 </junit.jupiter.version>
         <javaFaker.version>1.0.2</javaFaker.version>
+        <cucumber.version>7.14.0</cucumber.version>
     </properties>
 
 
@@ -26,8 +27,39 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
 
-
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-core -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+
+
+
+
+
 
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-api -->
         <dependency>
