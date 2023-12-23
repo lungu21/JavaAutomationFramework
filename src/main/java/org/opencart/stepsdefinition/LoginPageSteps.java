@@ -20,8 +20,4 @@ public class LoginPageSteps {
 
     }
 
-    @When("loginButton is clicked")
-    public void loginbuttonIsClicked() {
-        loginPage.clickonLoginButton();
-    }
 }

@@ -1,14 +1,20 @@
 package org.opencart.stepsdefinition;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 import org.opencart.managers.DriverManager;
+import org.opencart.managers.ScrollManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 public class GenericSteps {
 
@@ -40,7 +46,49 @@ public class GenericSteps {
             Assertions.assertTrue(urlContainsCollectString,"The "+ keyword + " is present within the URL");
 
         }
+
+    @When("{string} from {string} is clicked")
+    public void fromIsClicked(String elementName, String elementContainingPage) {
+        try {
+            Class classInstance = Class.forName("com.opencart.pageobjects"+ elementContainingPage);
+            Field webElementField = classInstance.getDeclaredField(elementName);
+            webElementField.setAccessible(true);
+            WebElement webElementToBeClicked = (WebElement) webElementField.get(classInstance.getConstructor(WebDriver.class).newInstance(driver));
+            ScrollManager.scrollElement(webElementToBeClicked);
+
+        } catch (ClassNotFoundException | NoSuchFieldException | NoSuchMethodException | InterruptedException |
+                 InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
+
+    @And("the following fields from {string} are populated with data")
+    public void theFollowingFieldsFromArePopulatedWithData(String pageName, Map<String,String> fieldValueMap) throws ClassNotFoundException {
+        Class classInstance = Class.forName("com.opencart.pageobjects"+ pageName);
+
+        fieldValueMap.forEach((fieldName, valueToBeEntered) ->{
+            Field webElementField = null;
+            try {
+                webElementField = classInstance.getDeclaredField(fieldName);
+                webElementField.setAccessible(true);
+                WebElement webElementTForDataInsertion = (WebElement) webElementField.get(classInstance.getConstructor(WebDriver.class).newInstance(driver));
+           ScrollManager.scrollElement(webElementTForDataInsertion);
+             webElementTForDataInsertion.sendKeys(valueToBeEntered);
+            } catch (NoSuchFieldException | InterruptedException | NoSuchMethodException | InstantiationException |
+                     IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+
+            }
+
+
+    });};
+
+
+}
+
+
 
 
 
